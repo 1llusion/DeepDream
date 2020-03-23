@@ -52,7 +52,7 @@ def showarray(a, fmt='jpeg', img_num=0):
     output_path = 'output'
     if not os.path.exists(output_path):
         os.makedirs(output_path)
-    filename = os.path.join(output_path, f"{cnt}.jpg")
+    filename = os.path.join(output_path, f"{img_num}.jpg")
     PIL.Image.fromarray(a).save(filename, fmt)
     #display(Image(data=f.getvalue()))
     print(img_num)
