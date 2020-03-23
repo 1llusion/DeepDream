@@ -85,6 +85,9 @@ def showarray(a, fmt='jpeg', img_num=0):
     a = np.uint8(np.clip(a, 0, 1)*255)
     f = BytesIO()
     #PIL.Image.fromarray(a).save(f, fmt)
+    output_path = 'output'
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
     PIL.Image.fromarray(a).save("output/" + str(img_num) + ".jpg", fmt)
     print(img_num)
     #display(Image(data=f.getvalue()))
