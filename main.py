@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
 from __future__ import print_function
 import os
 from io import BytesIO
@@ -8,7 +14,11 @@ from IPython.display import clear_output, Image, display, HTML
 
 import tensorflow.compat.v1 as tf
 
-model_fn = '/spell/tensorflow_inception_graph.pb'
+
+# In[2]:
+
+
+model_fn = 'tensorflow_inception_graph.pb'
 
 # creating TensorFlow session and loading the model from the model_fn file 
 graph = tf.Graph()
@@ -21,41 +31,63 @@ imagenet_mean = 117.0
 t_preprocessed = tf.expand_dims(t_input-imagenet_mean, 0)
 tf.import_graph_def(graph_def, {'input':t_preprocessed})
 
+
+# In[3]:
+
+
 layers = [op.name for op in graph.get_operations() if op.type=='Conv2D' and 'import/' in op.name]
 feature_nums = [int(graph.get_tensor_by_name(name+':0').get_shape()[-1]) for name in layers]
 
 print('Number of layers', len(layers))
 print('Total number of feature channels:', sum(feature_nums))
 
+
+# In[4]:
+
+
 def T(layer):
     '''Helper for getting layer output tensor'''
     return graph.get_tensor_by_name("import/%s:0"%layer)
-    
+
+
+# In[5]:
+
+
 layer=layers[4]
 print(layer)
 layer = layer.split("/")[1]
 print(layer)
 
+
+# In[6]:
+
+
+T(layer)
+
+
+# In[7]:
+
+
 for l, layer in enumerate(layers):
     layer = layer.split("/")[1]
     num_channels = T(layer).shape[3]
     print(layer, num_channels)
-    
+
+
+# In[16]:
+
+
 img_noise = np.random.uniform(size=(224,224,3)) + 100.0
 
 def showarray(a, fmt='jpeg', img_num=0):
     '''create a jpeg file from an array a and visualize it'''
     # clip the values to be between 0 and 255
     a = np.uint8(np.clip(a, 0, 1)*255)
-    #f = BytesIO()
+    f = BytesIO()
     #PIL.Image.fromarray(a).save(f, fmt)
-    output_path = 'output'
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
-    filename = os.path.join(output_path, f"{img_num}.jpg")
-    PIL.Image.fromarray(a).save(filename, fmt)
-    #display(Image(data=f.getvalue()))
+    PIL.Image.fromarray(a).save("output/" + str(img_num) + ".jpg", fmt)
     print(img_num)
+    #display(Image(data=f.getvalue()))
     
 def render_deepdream(t_obj, img0=img_noise,
                      iter_n=10, step=1.1, octave_n=4, octave_scale=1.1):
@@ -118,8 +150,16 @@ def calc_grad_tiled(img, t_grad, tile_size=512):
             grad[y:y+sz,x:x+sz] = g # put the whole gradient together from the tiled gradients g
     return np.roll(np.roll(grad, -sx, 1), -sy, 0) # shift back
 
-img0 = PIL.Image.open('/spell/didge.jpg')
+
+# In[9]:
+
+
+img0 = PIL.Image.open('didge.jpg')
 img0 = np.float32(img0)
-showarray(img0/255.0)
+#showarray(img0/255.0)
+
+
+# In[19]:
+
 
 render_deepdream(tf.square(T('mixed4c')), img0, iter_n=116, octave_n=36)
