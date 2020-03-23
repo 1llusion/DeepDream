@@ -49,7 +49,11 @@ def showarray(a, fmt='jpeg', img_num=0):
     a = np.uint8(np.clip(a, 0, 1)*255)
     #f = BytesIO()
     #PIL.Image.fromarray(a).save(f, fmt)
-    PIL.Image.fromarray(a).save(str(img_num) + ".jpg", fmt)
+    output_path = 'output'
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+    filename = os.path.join(output_path, f"{cnt}.jpg")
+    PIL.Image.fromarray(a).save(filename, fmt)
     #display(Image(data=f.getvalue()))
     print(img_num)
     
