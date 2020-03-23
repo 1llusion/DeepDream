@@ -18,7 +18,7 @@ import tensorflow.compat.v1 as tf
 # In[2]:
 
 
-model_fn = 'tensorflow_inception_graph.pb'
+model_fn = '/spell/tensorflow_inception_graph.pb'
 
 # creating TensorFlow session and loading the model from the model_fn file 
 graph = tf.Graph()
@@ -157,7 +157,7 @@ def calc_grad_tiled(img, t_grad, tile_size=512):
 # In[9]:
 
 
-img0 = PIL.Image.open('didge.jpg')
+img0 = PIL.Image.open('/spell/didge.jpg')
 img0 = np.float32(img0)
 #showarray(img0/255.0)
 
