@@ -117,4 +117,4 @@ img0 = PIL.Image.open('/spell/didge.jpg')
 img0 = np.float32(img0)
 showarray(img0/255.0)
 
-render_deepdream(tf.square(T('mixed4c')), img0, iter_n=10)
+render_deepdream(tf.square(T('mixed4c')), img0, iter_n=116, octave_n=36)
