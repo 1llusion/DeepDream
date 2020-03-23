@@ -47,10 +47,11 @@ def showarray(a, fmt='jpeg', img_num=0):
     '''create a jpeg file from an array a and visualize it'''
     # clip the values to be between 0 and 255
     a = np.uint8(np.clip(a, 0, 1)*255)
-    f = BytesIO()
-    PIL.Image.fromarray(a).save(f, fmt)
+    #f = BytesIO()
+    #PIL.Image.fromarray(a).save(f, fmt)
     PIL.Image.fromarray(a).save("output/" + str(img_num) + ".jpg", fmt)
-    display(Image(data=f.getvalue()))
+    #display(Image(data=f.getvalue()))
+    print(img_num)
     
 def render_deepdream(t_obj, img0=img_noise,
                      iter_n=10, step=1.1, octave_n=4, octave_scale=1.1):
