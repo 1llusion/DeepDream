@@ -77,7 +77,7 @@ def render_deepdream(t_obj, img0=img_noise,
             img += g*(step / (np.abs(g).mean()+1e-7))
             print('.',end = ' ')
             #clear_output()
-            showarray(img/255.0, img_num=(octave + 1) * (i + 1))
+            showarray(img/255.0, img_num=str(octave) +"_" + str(i))
 
 def tffunc(*argtypes):
     '''Helper that transforms TF-graph generating function into a regular one.
